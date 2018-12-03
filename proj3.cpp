@@ -1,5 +1,8 @@
-/*Bobby Kim
+/*
+Bobby Kim
+Nick Tindle
 CSCE 2100 - Project 3 - Picture Object Count*/
+
 
 #include <iostream>
 #include <vector>
@@ -26,7 +29,6 @@ int objNum = 0;
 void populate(vector <string> pic)
 {
     //rescan the original vector using a for loop
-    
     for(int i=0; i<pic.size(); ++i)
     {
         //if elem is '0' then push a zero
