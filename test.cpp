@@ -29,6 +29,9 @@ int sideLength;
 //Reads in the grid into inputGrid
 void readInGrid(vector<string> inputGrid);
 
+//print the vector 
+void printGrid(vector<string> inputGrid);
+
 int main()
 {
     //Get the file name
@@ -64,4 +67,26 @@ int main()
     {
         cout<<"File could not be opened or is corrupt. "<<endl;
     }
+
+    
+    printGrid(grid);
+    
+    cout<<"Hit enter to close the program"<<endl;
+    cin>>inputStr;
+}
+
+
+void printGrid(vector<string> inputGrid)
+{
+    
+    for(int i = 0; i < inputGrid.size(); i++)
+    {
+       //If not first loop, print an enter after every side Length
+        if(i!=0&&i%sideLength==0)
+        {
+            cout<<endl;
+        }
+        cout<<inputGrid.at(i)<<" ";
+    }
+    
 }
