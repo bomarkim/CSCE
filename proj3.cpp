@@ -104,6 +104,8 @@ int main(int argc, char* argv[])
 
 	ifstream infile(argv[1]);
 
+
+	///Reads in the grid
 	if (infile.is_open() && infile.good())
 	{
 		//scan file
@@ -116,21 +118,26 @@ int main(int argc, char* argv[])
 			while (getline(infile, segment, ','))
 			{
 
+				//Push the 'segment' into the vector. it is okay for it to have things like 0\n1 because we use those to tell the length
 				pic.push_back(segment);
 
 			}
 
 		}
 	}
+	//Print out if the file has issues 
 	else
 	{
 		cout << "INFILE is bad or closed" << endl;
 	}
 
+
+	///print original vector 
+	cout << endl << endl;
+
+	//temp vars to print out grid
 	int num = 0;
 	int temp;
-	//print original vector 
-	cout << endl << endl;
 
 	for (int i = 0; i < pic.size(); ++i) //for the length of the size of vector...
 	{
