@@ -39,8 +39,6 @@ string filename;
 
 //numberOfObjects in vector<int> objects
 int numberOfObjects=0;
-//tempNumberOfObjects for vector<int> tempGrid
-int tempNumberOfObjects=1;
 
 //Side length of all of grid
 int sideLength;
@@ -64,6 +62,9 @@ void checkGridForConnectingObjects(vector<int> inputGrid);
 
 //Counts the number of objects in the grid
 void countNumberOfObjectsInGrid(vector<int> inputGrid);
+
+//Gets the largest object in the grid
+void calcBiggestObjectsInGrid(vector<int> inputGrid);
 
 int main()
 {
@@ -91,7 +92,8 @@ int main()
     countNumberOfObjectsInGrid(objects);
     cout<<"Number of objects: "<<numberOfObjects<<endl;    
 
-
+    calcBiggestObjectsInGrid(objects);
+    
     cout<<"Hit anykey to close the program"<<endl;
     cin>>inputStr;
 }
@@ -422,4 +424,38 @@ void countNumberOfObjectsInGrid(vector<int> inputGrid)
         }
     }
     numberOfObjects=objectsInFinalImage.size();
+}
+
+//Gets the largest object in the grid
+void calcBiggestObjectsInGrid(vector<int> inputGrid)
+{
+    /**
+     * Run countNumberOfObjectsInGrid to get the vector with all the objects in a grid
+     * iterate through the vector and if you see a val add it to teh other vector 
+     *  see whats biggest
+    **/
+    countNumberOfObjectsInGrid(inputGrid);
+    vector<int> countOfNumberOfEachObjectInFinalImage;
+    countOfNumberOfEachObjectInFinalImage.resize(objectsInFinalImage.size());
+   
+    for(int i = 0; i < inputGrid.size(); i++)
+    {
+        //We wont find what we want at 0
+        if(inputGrid.at(i)==0)
+        {
+            continue;
+        } 
+        for(int j=0; j<objectsInFinalImage.size();j++)
+        {
+            if(inputGrid.at(i)==objectsInFinalImage.at(j))
+            {
+                countOfNumberOfEachObjectInFinalImage.at(j)=countOfNumberOfEachObjectInFinalImage.at(j)+1;
+            }
+        }
+    }
+
+    for(int i=0; i<countOfNumberOfEachObjectInFinalImage.size(); i++)
+    {
+        cout<<"Number of "<<objectsInFinalImage.at(i)<<" in the grid is "<< countOfNumberOfEachObjectInFinalImage.at(i)<<endl;
+    }
 }
