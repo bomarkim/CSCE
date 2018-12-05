@@ -32,7 +32,8 @@ string filename;
 //numberOfObjects in vector<int> objects
 int numberOfObjects;
 //tempNumberOfObjects for vector<int> tempGrid
-int tempNumberOfObjects;
+//int tempNumberOfObjects;
+
 //Side length of all of grid
 int sideLength;
 
@@ -70,6 +71,9 @@ int main()
 
     cout<<"Print objects grid"<<endl;
     printGrid(objects);
+
+
+    convertGridToObjects(tempGrid);
 
     cout<<"Hit anykey to close the program"<<endl;
     cin>>inputStr;
@@ -154,11 +158,64 @@ void convertStringGridToIntGrid(vector<string> inputGrid)
 void convertGridToObjects(vector<int> inputGrid)
 {
 
-  
+  //Go down the rows and if i is less than sideLength then dont check row above
+  //if I is greater than sideLength then check if i-sideLength is not 0
+    //if so set equal to i-sideLength (i = i-sideLength)
+  //if i is first on row (i %sideLength==0) then dont check the previous cell (i-1)
+    //else check if previous cell (i-1) is equal to 0
+      //if so continue
+      //else i=i-1
+    
+    //if inputGrid.at(i)!=0
+    //if i>sideLength continue else check if (i-sideLength =! 0) then i= i-sideLength
+    //if i%sideLength!=0 continue
+
+ string test;
+
+    /**
+     * if val[i]!=0
+     *  if i>sideLength (if i isnt in first row)
+     *    if val[i-sideLength]!=0 (if the cell above it isnt blank)
+     *       val[i]= val[i-sideLength] (set it equal to the cell above)
+     *  //else  (if i is in first row)
+     *   if i % sideLength !=0 (if i isnt in the first column)
+     *     if val[i-1]!=0 (if the previous cell has a value)
+     *       val[i]=val[i-1]
+     *     else (if the previous cell is blank)
+     *       val[i]=++numberOfObjects
+     *   else (i is in the first column)
+     *    val[i]=++numberOfObjects
+     * else (cell is blank)
+     *   continue
+    **/
+
+   /**
+    * Need to check left before above
+    * 
+    **/
   for(int i = 0; i < inputGrid.size(); i++)
   {
-      if(i==0)
-      
+      //if the cell is not blank
+      if(objects.at(i)!=0)
+      {
+          //if the cell can have a cell above it
+          if(i>sideLength)
+          {
+              //if the cell above it isn't empty
+              if(objects.at(i-sideLength)!=0)
+              { 
+                  //set the cell to the cell above it
+                  objects.at(i)=objects.at(i-sideLength);
+              }
+          }
+
+          
+      }
+      //The cell is blank. Move on
+      else
+      {
+          continue;
+      }
   }
   
     
