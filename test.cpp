@@ -161,20 +161,6 @@ void convertStringGridToIntGrid(vector<string> inputGrid)
 void convertGridToObjects(vector<int> inputGrid)
 {
 
-  //Go down the rows and if i is less than sideLength then dont check row above
-  //if I is greater than sideLength then check if i-sideLength is not 0
-    //if so set equal to i-sideLength (i = i-sideLength)
-  //if i is first on row (i %sideLength==0) then dont check the previous cell (i-1)
-    //else check if previous cell (i-1) is equal to 0
-      //if so continue
-      //else i=i-1
-    
-    //if inputGrid.at(i)!=0
-    //if i>sideLength continue else check if (i-sideLength =! 0) then i= i-sideLength
-    //if i%sideLength!=0 continue
-
- string test;
-
     /**
      * if val[i]!=0 (cell is not blank)
      *  if i>=sideLength (if i isnt in first row)
@@ -208,16 +194,11 @@ void convertGridToObjects(vector<int> inputGrid)
      * else (cell is blank)
      *   continue
      * 
-     * //rectify temp with Object
+     * 
     **/
 
-   /**
-    * Need to check left before above
-    * 
-    **/
   for(int i = 0; i < inputGrid.size(); i++)
   {
-      cout<<"For i: " << i <<endl;
       //if val[i]!=0 (cell is not blank)
       if(objects.at(i)!=0)
       {
@@ -316,7 +297,6 @@ void convertGridToObjects(vector<int> inputGrid)
       //The cell is blank. Move on
       else
       {
-          cout<<"Cell is blank"<<endl;
           continue;
       }
   }
