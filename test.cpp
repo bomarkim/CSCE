@@ -27,7 +27,7 @@ int sideLength;
 
 
 //Reads in the grid into inputGrid
-void readInGrid(vector<string> inputGrid);
+void readInGrid(string inputFileName);
 
 //print the vector 
 void printGrid(vector<string> inputGrid);
@@ -40,8 +40,17 @@ int main()
 
     cin>>filename;
 
+    readInGrid(filename);
+    
+    printGrid(grid);
+    
+    cout<<"Hit enter to close the program"<<endl;
+    cin>>inputStr;
+}
 
-    //open the stream to the file 
+
+void readInGrid(string inputFileName){
+//open the stream to the file 
     ifstream inputFile(filename);
 
     //Check if the file is available to open and okay to do so 
@@ -67,14 +76,7 @@ int main()
     {
         cout<<"File could not be opened or is corrupt. "<<endl;
     }
-
-    
-    printGrid(grid);
-    
-    cout<<"Hit enter to close the program"<<endl;
-    cin>>inputStr;
 }
-
 
 void printGrid(vector<string> inputGrid)
 {
