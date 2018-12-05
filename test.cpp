@@ -12,6 +12,7 @@ CSCE 2100 - Project 3 - Picture Object Count*/
 #include <algorithm>
 #include <limits>
 
+
 using namespace std;
 
 
@@ -25,6 +26,9 @@ vector<string> grid;
 vector<int> tempGrid;
 //Holds our objects
 vector<int> objects; 
+
+//Holds the objects in the final image
+vector<int> objectsInFinalImage;
 
 //general input string
 string inputStr;
@@ -64,44 +68,30 @@ void countNumberOfObjectsInGrid(vector<int> inputGrid);
 int main()
 {
     //Get the file name
-    cout<<"Hello world";
     cout<<"Please input file name"<<endl;
 
     cin>>filename;
 
     readInGrid(filename);
     
-    cout<<"Print string Grid"<<endl;
-    printGrid(grid);
-    
     convertStringGridToIntGrid(grid);
 
-    cout<<"print Temp Grid"<<endl;
-    printGrid(tempGrid);
-
-    cout<<"Print objects grid"<<endl;
-    printGrid(objects);
-
-
     convertGridToObjects(tempGrid);
-    cout<<"Number of objects is "<<numberOfObjects<<endl;
-    printGrid(objects);
-
-   // checkGridForConnectingObjects(objects);
-    cout<<"Number of objects is "<<numberOfObjects<<endl;
-    printGrid(objects);
-
+    
     
     for(int i = 0; i < 100; i++)
     {
         checkGridForConnectingObjects(objects);
     }
     
-    
-    
-
+   
     printGrid(objects);
-    
+    cout<<endl;
+
+    countNumberOfObjectsInGrid(objects);
+    cout<<"Number of objects: "<<numberOfObjects<<endl;    
+
+
     cout<<"Hit anykey to close the program"<<endl;
     cin>>inputStr;
 }
@@ -125,10 +115,8 @@ void readInGrid(string inputFileName){
 
             while(getline(ss,segment,','))
             {
-                cout<<segment<<endl;
                 grid.push_back(segment);
             }
-            cout<<endl;
             sideLength++;
         }
         //to correct for an extra loop of sideLength
@@ -143,7 +131,6 @@ void readInGrid(string inputFileName){
 //Prints the vector<string> grid 
 void printGrid(vector<string> inputGrid)
 {
-    cout<<"Side Length is "<<sideLength<<endl;
     for(int i = 0; i < inputGrid.size(); i++)
     {
        //If not first loop, print an enter after every side Length
@@ -158,7 +145,6 @@ void printGrid(vector<string> inputGrid)
 //prints the vector<int> grid
 void printGrid(vector<int> inputGrid)
 {
-    cout<<"Side Length is "<<sideLength<<endl;
     for(int i = 0; i < inputGrid.size(); i++)
     {
        //If not first loop, print an enter after every side Length
@@ -414,8 +400,26 @@ void checkGridForConnectingObjects(vector<int> inputGrid)
 //Counts the number of objects in the grid
 void countNumberOfObjectsInGrid(vector<int> inputGrid)
 {
-     for(int i = 0; i < inputGrid.size(); i++)
-     {
-         continue;
-     }
+
+    /**
+     *  Set num of objects to 0
+     *  go through whole grid and if its not a zero 
+     *      check if its in the objectsInFinalImage vector
+     *          if not, add it
+     *  repeat
+     * 
+     * count size of vector at the end
+     **/
+    numberOfObjects=0;
+    for(int i = 0; i < inputGrid.size(); i++)
+    {
+        if(inputGrid.at(i)!=0)
+        {
+            if(find(objectsInFinalImage.begin(), objectsInFinalImage.end(), inputGrid.at(i)) == objectsInFinalImage.end())
+            {
+                objectsInFinalImage.push_back(inputGrid.at(i));
+            }
+        }
+    }
+    numberOfObjects=objectsInFinalImage.size();
 }
