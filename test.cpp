@@ -10,9 +10,13 @@ CSCE 2100 - Project 3 - Picture Object Count*/
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
+
+//Int.MaxValue
+int MaxValue=numeric_limits<int>::max();
 
 //Vector of ints of the import 
 vector<string> grid;
@@ -51,6 +55,12 @@ void convertStringGridToIntGrid(vector<string> inputGrid);
 //Turns a vector<int> grid into a vector<int> objects grid
 void convertGridToObjects(vector<int> inputGrid);
 
+//Checks the vector<int> grid for any connected pieces and fixes them
+void checkGridForConnectingObjects(vector<int> inputGrid);
+
+//Counts the number of objects in the grid
+void countNumberOfObjectsInGrid(vector<int> inputGrid);
+
 int main()
 {
     //Get the file name
@@ -74,10 +84,24 @@ int main()
 
 
     convertGridToObjects(tempGrid);
-
     cout<<"Number of objects is "<<numberOfObjects<<endl;
     printGrid(objects);
 
+   // checkGridForConnectingObjects(objects);
+    cout<<"Number of objects is "<<numberOfObjects<<endl;
+    printGrid(objects);
+
+    
+    for(int i = 0; i < 100; i++)
+    {
+        checkGridForConnectingObjects(objects);
+    }
+    
+    
+    
+
+    printGrid(objects);
+    
     cout<<"Hit anykey to close the program"<<endl;
     cin>>inputStr;
 }
@@ -161,7 +185,7 @@ void convertStringGridToIntGrid(vector<string> inputGrid)
 void convertGridToObjects(vector<int> inputGrid)
 {
 
-    /**
+    /**For each i
      * if val[i]!=0 (cell is not blank)
      *  if i>=sideLength (if i isnt in first row)
      *    if val[i-sideLength]!=0 (if the cell above it isnt blank)
@@ -302,4 +326,96 @@ void convertGridToObjects(vector<int> inputGrid)
   }
   
     
+}
+
+//Checks a vector<int> grid for touching objects and fixes them
+void checkGridForConnectingObjects(vector<int> inputGrid)
+{
+    /**
+     * Start in top left
+     * if the cell is not zero continue
+     * go through each side and find out which one is smallest. Set self to smallest if that side is not 0
+     * if (i>=side length)    (its not in top  row so check i-sizeLength (above))
+     *  if its not zero and its less than smallest set to smallest
+     * if(i +sideLength<size) (its not in last row so check i+sizeLength (below))
+     *  if its not zero and its less than smallest set to smallest
+     * if(i%sideLength!=0)    (its not in left coloumn so check i-1      (left))
+     *  if its not zero and its less than smallest set to smallest
+     * if(i+1%sideLength==0)  (its not in right coloumn so check i+1     (right))
+     *  if its not zero and its less than smallest set to smallest
+     * 
+     * if smallest has gotten any smaller than int.MaxVal and its less than what is currently there, replace it 
+    **/
+    for(int i = 0; i < inputGrid.size(); i++)
+    {
+        //if the cell is 0, go to next cell
+        if(objects.at(i)==0)
+        {
+            continue;
+        }
+
+        //set smallest to int.MaxValue after checking to improve mem footprint
+        int smallest=MaxValue;
+
+        //if (i>=side length)    (its not in top  row so check i-sizeLength (above))  
+        if(i>=sideLength)
+        {
+            if(objects.at(i-sideLength)!=0)
+            {
+                if(objects.at(i-sideLength)<smallest)
+                {
+                    smallest=objects.at(i-sideLength);
+                }
+            }
+        }
+        //if(i +sideLength<size) (its not in last row so check i+sizeLength (below))
+        if(i+sideLength<inputGrid.size())
+        {
+            if(objects.at(i+sideLength)!=0)
+            {
+                if(objects.at(i+sideLength)<smallest)
+                {
+                    smallest=objects.at(i+sideLength);
+                }
+            }
+        }
+        //if(i%sideLength!=0)    (its not in left coloumn so check i-1      (left))
+        if(i%sideLength!=0)
+        {
+            if(objects.at(i-1)!=0)
+            {
+                if(objects.at(i-1)<smallest)
+                {
+                    smallest=objects.at(i-1);
+                }
+            }
+        }
+        //if(i+1%sideLength!=0)  (its not in right coloumn so check i+1     (right))
+        if((i+1)%sideLength!=0&&i+1<inputGrid.size())
+        {
+            if(objects.at(i+1)!=0)
+            {
+                if(objects.at(i+1)<smallest)
+                {
+                    smallest=objects.at(i+1);
+                }
+            }
+        }
+
+        //if smallest has gotten any smaller than int.MaxVal and its less than what is currently there, replace it 
+        if(smallest<MaxValue&&smallest<objects.at(i))
+        {
+            objects.at(i)=smallest;
+        }
+    }
+
+}
+
+//Counts the number of objects in the grid
+void countNumberOfObjectsInGrid(vector<int> inputGrid)
+{
+     for(int i = 0; i < inputGrid.size(); i++)
+     {
+         continue;
+     }
 }
