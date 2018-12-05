@@ -30,9 +30,9 @@ string filename;
 
 
 //numberOfObjects in vector<int> objects
-int numberOfObjects;
+int numberOfObjects=0;
 //tempNumberOfObjects for vector<int> tempGrid
-//int tempNumberOfObjects;
+int tempNumberOfObjects=1;
 
 //Side length of all of grid
 int sideLength;
@@ -74,6 +74,9 @@ int main()
 
 
     convertGridToObjects(tempGrid);
+
+    cout<<"Number of objects is "<<numberOfObjects<<endl;
+    printGrid(objects);
 
     cout<<"Hit anykey to close the program"<<endl;
     cin>>inputStr;
@@ -173,11 +176,28 @@ void convertGridToObjects(vector<int> inputGrid)
  string test;
 
     /**
-     * if val[i]!=0
-     *  if i>sideLength (if i isnt in first row)
+     * if val[i]!=0 (cell is not blank)
+     *  if i>=sideLength (if i isnt in first row)
      *    if val[i-sideLength]!=0 (if the cell above it isnt blank)
-     *       val[i]= val[i-sideLength] (set it equal to the cell above)
-     *  //else  (if i is in first row)
+     *       if i%sideLength!=0 (if the cell isnt the first in the column )
+     *          if(val[i-1]!=0) (if the previous cell is elegible)
+     *            if(val[i-1]<val[i-sideLength]) (if previous cell is lower num than cell above)
+     *              val[i]=val[i-1] (set it equal to cell previous)
+     *            else (if previous cell is higher)
+     *              val[i]= val[i-sideLength] (set it equal to the cell above)
+     *          else (the previous cell is inelegible)
+     *            val[i]= val[i-sideLength] (set it equal to the cell above)
+     *       else (the cell is in the first row and thus previous is inelegible)
+     *        val[i]= val[i-sideLength] (set it equal to the cell above)
+     *  - else (the cell in the row above it is blank) 
+     *     if i%sideLength!=0 (if its not the first in the column)
+     *       if val[i-1]!=0 (if previous cell isnt blank)
+     *         val[i]=val[i-1] (value of cell is equal to the one before it because the one above is inelegible)
+     *       else (previous cell is blank)
+     *         val[i]=++numberOfObjects
+     *     else (it is the first in the column)
+     *       val[i]=++numberOfObjects
+     * else  (if i is in first row)
      *   if i % sideLength !=0 (if i isnt in the first column)
      *     if val[i-1]!=0 (if the previous cell has a value)
      *       val[i]=val[i-1]
@@ -187,6 +207,8 @@ void convertGridToObjects(vector<int> inputGrid)
      *    val[i]=++numberOfObjects
      * else (cell is blank)
      *   continue
+     * 
+     * //rectify temp with Object
     **/
 
    /**
@@ -195,25 +217,106 @@ void convertGridToObjects(vector<int> inputGrid)
     **/
   for(int i = 0; i < inputGrid.size(); i++)
   {
-      //if the cell is not blank
+      cout<<"For i: " << i <<endl;
+      //if val[i]!=0 (cell is not blank)
       if(objects.at(i)!=0)
       {
-          //if the cell can have a cell above it
-          if(i>sideLength)
-          {
-              //if the cell above it isn't empty
-              if(objects.at(i-sideLength)!=0)
-              { 
-                  //set the cell to the cell above it
-                  objects.at(i)=objects.at(i-sideLength);
-              }
-          }
-
-          
+        //if i>=sideLength (if i isnt in first row)
+        if(i>=sideLength)
+        {
+            //if val[i-sideLength]!=0 (if the cell above it isnt blank)
+            if(objects.at(i-sideLength)!=0)
+            { 
+               //if i%sideLength!=0 (if the cell isnt the first in the column )
+               if(i%sideLength!=0)
+               {
+                    if(objects.at(i-1)!=0)
+                    {
+                        // if(val[i-1]<val[i-sideLength]) (if previous cell is lower num than cell above)
+                        if(objects.at(i-1)<objects.at(i-sideLength))
+                        {
+                            //val[i]=val[i-1] (set it equal to cell previous)
+                            objects.at(i)=objects.at(i-1);
+                        }
+                        //else (if previous cell higher)
+                        else
+                        {
+                            //val[i]= val[i-sideLength] (set it equal to the cell above)
+                            objects.at(i)=objects.at(i-sideLength);
+                        }
+                    }
+                    //else (the previous cell is inelegible)
+                    else
+                    {
+                        //val[i]= val[i-sideLength] (set it equal to the cell above)
+                        objects.at(i)=objects.at(i-sideLength);
+                    }
+               }
+               //else (the cell is in the first row and thus previous is inelegible)
+               else
+               {
+                    //val[i]= val[i-sideLength] (set it equal to the cell above)
+                    objects.at(i)=objects.at(i-sideLength);
+               }
+            }
+            //else (the cell in the row above it is blank) 
+            else
+            {
+                //if i%sideLength!=0 (if its not the first in the column)
+                if(i%sideLength!=0)
+                {
+                    //if val[i-1]!=0 (if previous cell isnt blank)
+                    if(objects.at(i-1)!=0)
+                    {
+                        //val[i]=val[i-1] (value of cell is equal to the one before it because the one above is inelegible)
+                        objects.at(i)=objects.at(i-1);
+                    }
+                    //else (previous cell is blank)
+                    else
+                    {
+                        //val[i]=++numberOfObjects
+                        objects.at(i)=++numberOfObjects;
+                    }
+                }
+                //else (it is the first in the column)
+                else
+                {
+                    //val[i]=++numberOfObjects
+                    objects.at(i)=++numberOfObjects;
+                }
+            }
+        }
+        // else  (if i is in first row)
+        else
+        {
+            //if i % sideLength !=0 (if i isnt in the first column)
+            if(i%sideLength!=0)
+            {
+                //if val[i-1]!=0 (if the previous cell has a value)
+                if(objects.at(i-1)!=0)
+                {
+                    //val[i]=val[i-1]
+                    objects.at(i)=objects.at(i-1);
+                }
+                //else (if the previous cell is blank)
+                else
+                {
+                    // val[i]=++numberOfObjects
+                    objects.at(i)=++numberOfObjects;
+                }
+            }
+            //else (i is in the first column)
+            else
+            {
+                // val[i]=++numberOfObjects
+                objects.at(i)=++numberOfObjects;
+            }
+        }
       }
       //The cell is blank. Move on
       else
       {
+          cout<<"Cell is blank"<<endl;
           continue;
       }
   }
